@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gang.dao.StudentMapper" >
+  <resultMap id="BaseResultMap" type="com.gang.pojo.Student" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="iphone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="mh_username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="mh_password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="picture" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="realname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, username, password, iphone, mh_username, mh_password, picture, realname, name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from student
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gang.pojo.Student" >
+    insert into student (id, username, password, 
+      iphone, mh_username, mh_password, 
+      picture, realname, name
+      )
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{iphone,jdbcType=VARCHAR}, #{mhUsername,jdbcType=VARCHAR}, #{mhPassword,jdbcType=VARCHAR}, 
+      #{picture,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gang.pojo.Student" >
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="iphone != null" >
+        iphone,
+      </if>
+      <if test="mhUsername != null" >
+        mh_username,
+      </if>
+      <if test="mhPassword != null" >
+        mh_password,
+      </if>
+      <if test="picture != null" >
+        picture,
+      </if>
+      <if test="realname != null" >
+        realname,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="iphone != null" >
+        #{iphone,jdbcType=VARCHAR},
+      </if>
+      <if test="mhUsername != null" >
+        #{mhUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="mhPassword != null" >
+        #{mhPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gang.pojo.Student" >
+    update student
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="iphone != null" >
+        iphone = #{iphone,jdbcType=VARCHAR},
+      </if>
+      <if test="mhUsername != null" >
+        mh_username = #{mhUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="mhPassword != null" >
+        mh_password = #{mhPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null" >
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gang.pojo.Student" >
+    update student
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      iphone = #{iphone,jdbcType=VARCHAR},
+      mh_username = #{mhUsername,jdbcType=VARCHAR},
+      mh_password = #{mhPassword,jdbcType=VARCHAR},
+      picture = #{picture,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectPictureByPrimaryKey" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select
+    picture
+    from student
+    where id = #{id}
+  </select>
+  <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from student
+    where username = #{username}
+  </select>
+  <select id="selectByMhUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from student
+    where mh_username = #{mhUsername}
+  </select>
+
+  <update id="updateByEmailSelective" parameterType="com.gang.pojo.Student" >
+    update student
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="iphone != null" >
+        iphone = #{iphone,jdbcType=VARCHAR},
+      </if>
+      <if test="mhUsername != null" >
+        mh_username = #{mhUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="mhPassword != null" >
+        mh_password = #{mhPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null" >
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where username = #{username,jdbcType=INTEGER}
+  </update>
+
+</mapper>

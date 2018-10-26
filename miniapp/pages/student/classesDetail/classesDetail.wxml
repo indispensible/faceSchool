@@ -1,0 +1,48 @@
+<!--pages/student/classesDetail/classesDetail.wxml-->
+    <view class="index">
+      <view class="index-bd">
+        <view class="kind-list">
+          <block wx:for-items="{{detail}}" wx:for-item="class" wx:key="{{class.classes.cid}}">
+              <view class="kind-list-item">
+                <view id="{{class.classes.cid}}" class="kind-list-item-hd">
+                  <block>
+                    <view class="kind-list-text">{{class.classes.cname}}<text decode="{{true}}" style="font-size: 30.666rpx;color: #A9A9A9;">&nbsp;&nbsp;第{{class.classes.countsign}}次签到</text></view>
+                  </block>
+                </view>
+                <view class="kind-list-item-bd kind-list-item-bd-show">
+                  <block>
+                    <view class="navigator">老师姓名：{{class.teacher.realname}}</view>
+                  </block>
+                  <block>
+                    <view class="navigator">老师邮箱：{{class.teacher.email}}</view>
+                  </block>
+                  <block>
+                    <view class="navigator">
+                      上课：
+                      <button disabled='{{attendButton}}' bindtap='attend'>{{statusAttend}}</button>
+                    </view>
+                    <view class="navigator">
+                      下课：
+                      <button disabled='{{overButton}}' bindtap='over'>{{statusOver}}</button>
+                    </view>
+                  </block>
+                  <block>
+                    <view class="navigator" style="font-size: 38rpx;padding-bottom: 15rpx;">课程描述 </view>
+                    <text style="display: flex;padding: 0rpx 20rpx;">{{class.classes.cdescription}}</text> 
+                  </block>
+              </view>
+              </view>
+          </block>
+
+        <!-- 展现地图 -->
+        <map id="map" longitude="{{centerLon}}" latitude="{{centerLat}}" scale="20" markers="{{markers}}" bindmarkertap="markertap" style="width: 100%; height: 288px;margin-bottom: 12.666rpx;"></map>
+
+        <!-- 展现人脸识别照片 -->
+         <camera id="myCamera" class="camera" device-position="back" flash="auto"></camera> 
+         <image src="{{tempImage}}" style="display: {{display}};width: 100%;" mode='widthFix'></image>
+
+        </view>
+      </view>
+    </view>
+
+    <button bindtap='backToTabBar' style="background-color: #fff;">跳转回首页</button>

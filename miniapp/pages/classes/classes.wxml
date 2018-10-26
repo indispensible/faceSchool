@@ -1,0 +1,117 @@
+ <block wx:if="{{showLoading}}">
+  <view class="page-loading">
+    <text class="loading-text" style="font-size: 48rpx;">请先登录</text>
+  </view>
+</block>
+<block wx:else>
+
+  <block wx:if="{{class_num == 0}}">
+    <view style="width: 100%;height: 100%;" bindtap='changePage'>
+      <view class="page-loading">
+          <text class="loading-text" style="font-size: 48rpx;" style="font-size: 26px;text-align: center;">还没有创建或者加入课程！</text>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+      < block wx:if="{{tid == -1}}">
+        <view class="index" style="margin-top: 15rpx;">
+          <view class="index-bd">
+          <!-- <button bindtap='backToTabBar' style="background-color: #fff;">跳转回首页</button> -->
+
+          <view class="kind-list">
+              <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+                <view class="picker" style="text-align: center;margin: 20rpx 0rpx; 0.5px; 0rpx;font-size: 16px;background: #fff;border-radius: 20rpx;padding: 10rpx 0rpx;width: 100%;">
+                  当前选择：{{array[index]}}
+                </view>
+              </picker>
+          </view>
+
+            <view class="kind-list">
+              <block wx:for-items="{{classes}}" wx:for-item="class" wx:key="{{class.classes.cid}}">
+
+                <block wx:if="{{class.createtime != null}}">
+                  <view class="kind-list-item">
+                    <view id="{{class.classes.cid}}" data-countsign="{{class.classes.countsign}}" class="kind-list-item-hd" bindtap='classByStu'>
+                      <block>
+                        <view class="kind-list-text" style="width: 100%;text-align: center;">{{class.classes.cname}}</view>
+                      </block>
+                    </view>
+                    <view class="kind-list-item-bd kind-list-item-bd-show">
+                      <block>
+                        <view class="navigator">课程序号：{{class.classes.cid}}</view>
+                      </block>
+                      <block>
+                        <view class="navigator">老师姓名：{{class.teacher.realname}}</view>
+                      </block>
+                      <block>
+                        <view class="navigator" style='display:none'>老师邮箱：{{class.teacher.email}}</view>
+                      </block>
+                      <block>
+                        <view class="navigator">已点名次数：{{class.classes.countsign}}</view>
+                      </block>
+                      <block>
+                        <view class="navigator">
+                        <text data-id="{{class.classes.cid}}" style="font-size: 31.666rpx;color: #A9A9A9;text-align: center;width: 100%;" decode="{{true}}" bindtap='deleteClassByStu'>删除课程</text>
+                        </view>
+                      </block> 
+                  </view>
+                  </view>
+                </block>
+                <block wx:else>
+                </block>
+              </block>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="index" style="margin-top: 15rpx;">
+          <view class="index-bd">
+
+          <view class="kind-list">
+              <picker bindchange="bindTeacherChange" value="{{index}}" range="{{array}}">
+                <view class="picker" style="text-align: center;margin: 20rpx 0rpx; 0.5px; 0rpx;font-size: 16px;background: #fff;border-radius: 20rpx;padding: 10rpx 0rpx;width: 100%;">
+                  当前选择：{{array[index]}}
+                </view>
+              </picker>
+          </view>
+
+            <view class="kind-list">
+              <block wx:for-items="{{classes}}" wx:for-item="class" wx:key="{{class.cid}}">
+
+                <block wx:if="{{class.createtime != null}}">
+                  <view class="kind-list-item">
+                    <view data-cid="{{class.cid}}" data-tid="{{tid}}" class="kind-list-item-hd" data-countSign="{{class.countsign}}" bindtap='classByTId'>
+                      <block>
+                        <view class="kind-list-text" style="width: 100%;text-align: center;">{{class.cname}}</view>
+                      </block>
+                    </view>
+                    <view class="kind-list-item-bd kind-list-item-bd-show">
+                      <block>
+                        <view class="navigator">课程序号：{{class.cid}}</view>
+                      </block>
+                      <block>
+                        <view class="navigator">创建时间：{{class.createtime}}</view>
+                      </block>
+                      <block>
+                        <view class="navigator">点名次数：{{class.countsign}}</view>
+                      </block>
+                      <block>
+                        <!-- <view class="navigator" name="{{class.cid}}">更多详情...</view> -->
+                        <view class="navigator">
+                        <text data-id="{{class.cid}}" style="font-size: 33.666rpx;color: #A9A9A9;text-align: center;width: 100%;" decode="{{true}}" bindtap='deleteClassByTea'>删除课程</text>
+                        </view>
+                      </block> 
+                  </view>
+                  </view>
+                </block>
+                <block wx:else>
+                </block>
+              </block>
+            </view>
+          </view>
+        </view>
+      </block>
+  </block>
+ </block> 
+

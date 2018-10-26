@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gang.dao.StuClaMapper" >
+  <resultMap id="BaseResultMap" type="com.gang.pojo.StuCla" >
+    <constructor >
+      <arg column="SId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="CId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="createTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="findBaseAll">
+    SId,CId,createTime
+  </sql>
+
+  <delete id="deleteByCIdAndSId">
+    DELETE FROM stucla
+    WHERE CId=#{CId} and SId=#{SId}
+  </delete>
+
+  <insert id="insert" parameterType="com.gang.pojo.StuCla" >
+    insert into stucla (SId, CId, createTime
+      )
+    values (#{sid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gang.pojo.StuCla" >
+    insert into stucla
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        SId,
+      </if>
+      <if test="cid != null" >
+        CId,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        now(),
+      </if>
+    </trim>
+  </insert>
+
+  <resultMap id="joinClass" type="com.gang.pojo.StuCla">
+    <result property="cid" column="CId"/>
+    <result property="sid" column="SId"/>
+    <result property="createtime" column="createTime"/>
+  </resultMap>
+
+  <select id="findBaseAllClass" resultMap="joinClass">
+    select
+    <include refid="findBaseAll"/>
+    FROM stucla
+    WHERE CId=#{CId} and SId=#{SId}
+  </select>
+
+  <resultMap id="findAllClasses" type="com.gang.pojo.StuCla">
+    <result property="createtime" column="c"/>
+    <association property="teacher" column="a" javaType="com.gang.pojo.Teacher">
+      <result property="email" column="email"/>
+      <result property="realname" column="realName"/>
+    </association>
+    <association property="classes" column="b" javaType="com.gang.pojo.Class">
+      <id property="cid" column="b"/>
+      <result property="cname" column="CName"/>
+      <result property="cdescription" column="CDescription"/>
+      <result property="countsign" column="countSign"/>
+    </association>
+  </resultMap>
+
+  <select id="findClassesOfStu" resultMap="findAllClasses" parameterType="java.lang.Integer">
+    SELECT c.TId a,sc.CId b,sc.createTime c,CName,CDescription,countSign,email,realName
+    FROM stucla sc,class c,teacher t
+    where c.TId=t.TId and c.CId=sc.CId and sc.SId=#{SId}
+  </select>
+
+  <resultMap id="findEnsureClasses" type="com.gang.pojo.StuCla">
+    <association property="teacher" column="a" javaType="com.gang.pojo.Teacher">
+      <result property="email" column="email"/>
+      <result property="realname" column="realName"/>
+    </association>
+    <association property="classes" column="b" javaType="com.gang.pojo.Class">
+      <id property="cid" column="b"/>
+      <result property="cname" column="CName"/>
+      <result property="cdescription" column="CDescription"/>
+      <result property="attendtime" column="AttendTime"/>
+      <result property="overtime" column="OverTime"/>
+      <result property="countsign" column="countSign"/>
+      <result property="signlocation" column="d"/>
+    </association>
+  </resultMap>
+
+  <select id="findEnsureClass" resultMap="findEnsureClasses">
+    SELECT c.TId a,sc.CId b,CName,CDescription,AttendTime,OverTime,countSign,c.SignLocation d,realname,email
+    FROM teacher t,class c,stucla sc
+    where t.TId=c.TId and sc.CId=c.CId and sc.CId=#{CId} and sc.SId=#{SId}
+  </select>
+
+  <resultMap id="findAllStudents" type="com.gang.pojo.StuCla">
+    <association property="student" column="a" javaType="com.gang.pojo.Student">
+      <result property="username" column="username"/>
+      <result property="iphone" column="iphone"/>
+      <result property="mhUsername" column="mh_username"/>
+      <result property="realname" column="realname"/>
+    </association>
+  </resultMap>
+  
+  <select id="findAllStudentsOfClassByCId" resultMap="findAllStudents">
+    SELECT sc.SId a,username,iphone,mh_username,realname
+    FROM stucla sc,student s
+    WHERE sc.SId=s.id AND sc.CId=#{CId}
+  </select>
+
+  <resultMap id="studentsDetail" type="com.gang.pojo.StuCla">
+    <result property="sid" column="a"/>
+    <result property="cid" column="b"/>
+    <result property="signcount" column="SignCount"/>
+    <result property="signstate" column="SignState"/>
+    <result property="overtime" column="OverTime"/>
+    <result property="attendTime" column="AttendTime"/>
+    <association property="student" column="a" javaType="com.gang.pojo.Student">
+      <result property="realname" column="realname"/>
+      <result property="mhUsername" column="mh_username"/>
+    </association>
+  </resultMap>
+
+  <select id="findStudentsDetail" resultMap="studentsDetail">
+    SELECT SId a,adjust.CId b,SignCount,SignState,realname,mh_username,OverTime,AttendTime
+    From (SELECT *
+          FROM stucla sc LEFT JOIN (SELECT CId a, SId b,SignCount,SignState FROM screalation scr WHERE scr.SignCount=#{SignCount}) scr1
+          ON sc.CId=scr1.a AND sc.SId=scr1.b where sc.CId=#{CId}) adjust , student s,class c
+    WHERE adjust.SId=s.id and adjust.CId=c.CId;
+
+  </select>
+
+
+  
+  <resultMap id="studentsOfClass" type="com.gang.pojo.StuCla">
+    <result property="sid" column="SId"/>
+    <result property="cid" column="CId"/>
+    <association property="student" column="SId" javaType="com.gang.pojo.Student">
+      <result property="realname" column="realname"/>
+      <result property="mhUsername" column="mh_username"/>
+    </association>
+    <collection property="scRealation" column="{sid=SId,cid=CId}" javaType="ArrayList" ofType="com.gang.pojo.SCRealation" select="getStudentsDetail"/>
+  </resultMap>
+
+  <resultMap id="detailOfStudent" type="com.gang.pojo.SCRealation">
+    <result property="signcount" column="SignCount"/>
+    <result property="signstate" column="SignState"/>
+  </resultMap>
+  
+  <select id="findAllStudentsDetail" resultMap="studentsOfClass">
+    SELECT SId,CId,realname,mh_username
+    FROM stucla sc,student s
+    where sc.SId = s.id and sc.CId = #{CId}
+  </select>
+
+  <select id="getStudentsDetail" resultMap="detailOfStudent">
+    SELECT SignCount,SignState
+    From (SELECT *
+          FROM stucla sc LEFT JOIN (SELECT CId a, SId b,SignCount,SignState FROM screalation scr) scr1
+          ON sc.CId=scr1.a AND sc.SId=scr1.b where sc.CId=#{cid} and sc.SId=#{sid}) adjust
+          WHERE adjust.SId
+    GROUP BY adjust.SId , SignCount;
+  </select>
+
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gang.dao.StudentsDetailMapper" >
+
+  <resultMap id="findStudentsDetail" type="com.gang.pojo.StudentsDetail">
+    <result property="sid" column="SId"/>
+    <result property="cid" column="CId"/>
+    <result property="realname" column="realname"/>
+    <result property="mhUsername" column="mh_username"/>
+    <result property="a1" column="a1"/>
+    <result property="a2" column="a2"/>
+    <result property="a3" column="a3"/>
+    <result property="a4" column="a4"/>
+    <result property="a5" column="a5"/>
+    <result property="studentCountSign" column="studentCountSign"/>
+  </resultMap>
+
+  <select id="findAllStudentsDetail" resultMap="findStudentsDetail">
+    SELECT SId,CId,realname,mh_username,sum(case when SignState=1 then 1 else 0 end) as 'a1',sum(case when SignState=2 then 1 else 0 end) as 'a2',sum(case when SignState=3 then 1 else 0 end) as 'a3',sum(case when SignState=4 then 1 else 0 end) as 'a4',sum(case when SignState=5 then 1 else 0 end) as 'a5',count(SignState) as studentCountSign
+    From (select *
+          FROM stucla sc LEFT JOIN (SELECT CId a, SId b,SignCount,SignState FROM screalation scr) scr1
+          ON sc.CId=scr1.a AND sc.SId=scr1.b where sc.CId=#{CId}) adjust , student s
+    WHERE adjust.SId=s.id
+    GROUP BY adjust.SId;
+  </select>
+</mapper>

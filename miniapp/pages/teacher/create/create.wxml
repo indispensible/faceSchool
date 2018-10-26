@@ -1,0 +1,10 @@
+<!--pages/teacher/create/create.wxml-->
+<!--var url=basePath+"find/insertClasses.do";  -->
+<view class="kind-list-text">创建课程</view>
+<view class="section">
+  <input id="CName" name="CName" placeholder="课程名" bindinput ="classNameInput" style="margin: 2%;font-size: 18px;"/>
+  <input name="CDescription" placeholder="课程简介" bindinput ="introduceInput" style="margin: 2%;font-size: 18px;"/>
+</view>
+<view>
+  <button bindtap='formSubmit'>创建课程</button>
+</view>

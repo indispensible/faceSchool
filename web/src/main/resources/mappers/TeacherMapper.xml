@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gang.dao.TeacherMapper" >
+  <resultMap id="BaseResultMap" type="com.gang.pojo.Teacher" >
+    <constructor >
+      <idArg column="TId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="email" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="iphone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="identification" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="realName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="ifDelete" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TId, email, password, iphone, identification, realName, username,status,ifDelete,adoptByAId,deleteByAId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from teacher
+    where TId = #{tid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from teacher
+    where TId = #{tid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gang.pojo.Teacher" >
+    insert into teacher (TId, email, password, 
+      iphone, identification, realName, 
+      username,status,ifDelete,adoptByAId,deleteByAId)
+    values (#{tid,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{iphone,jdbcType=VARCHAR}, #{identification,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},#{ifDelete,jdbcType=INTEGER},#{adoptByAId,jdbcType=INTEGER},#{deleteByAId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gang.pojo.Teacher" >
+    insert into teacher
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tid != null" >
+        TId,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="iphone != null" >
+        iphone,
+      </if>
+      <if test="identification != null" >
+        identification,
+      </if>
+      <if test="realname != null" >
+        realName,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="ifDelete != null" >
+        ifDelete,
+      </if>
+      <if test="adoptByAId != null" >
+        adoptByAId,
+      </if>
+      <if test="deleteByAId != null" >
+        deleteByAId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tid != null" >
+        #{tid,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="iphone != null" >
+        #{iphone,jdbcType=VARCHAR},
+      </if>
+      <if test="identification != null" >
+        #{identification,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="ifDelete != null" >
+        #{ifDelete,jdbcType=INTEGER},
+      </if>
+      <if test="adoptByAId != null" >
+        #{adoptByAId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteByAId != null" >
+        #{deleteByAId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gang.pojo.Teacher" >
+    update teacher
+    <set >
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="iphone != null" >
+        iphone = #{iphone,jdbcType=VARCHAR},
+      </if>
+      <if test="identification != null" >
+        identification = #{identification,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        realName = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status=#{status,jdbcType=INTEGER},
+      </if>
+      <if test="ifDelete != null" >
+        ifDelete=#{ifDelete,jdbcType=INTEGER},
+      </if>
+      <if test="adoptByAId != null" >
+        adoptByAId=#{adoptByAId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteByAId != null" >
+        deleteByAId=#{deleteByAId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where TId = #{tid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gang.pojo.Teacher" >
+    update teacher
+    set email = #{email,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      iphone = #{iphone,jdbcType=VARCHAR},
+      identification = #{identification,jdbcType=VARCHAR},
+      realName = #{realname,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      status=#{status,jdbcType=INTEGER},
+      ifDelete=#{ifDelete,jdbcType=INTEGER},
+      adoptByAId=#{adoptByAId,jdbcType=INTEGER},
+      deleteByAId=#{deleteByAId,jdbcType=INTEGER}
+    where TId = #{tid,jdbcType=INTEGER}
+  </update>
+
+  <resultMap id="findTeacherByEmail" type="com.gang.pojo.Teacher">
+    <id property="tid" column="TId"/>
+    <result property="email" column="email"/>
+    <result property="password" column="password"/>
+    <result property="iphone" column="iphone"/>
+    <result property="identification" column="identification"/>
+    <result property="realname" column="realname"/>
+    <result property="username" column="username"/>
+    <result property="status" column="status"/>
+    <result property="ifDelete" column="ifDelete"/>
+  </resultMap>
+
+  <select id="selectByTeacherEmail" parameterType="java.lang.String" resultMap="findTeacherByEmail">
+    select
+    TId, email, password, iphone, identification, realName, username,status,ifDelete
+    from teacher
+    where email = #{email}
+  </select>
+
+  <resultMap id="adoptAllTeacher" type="com.gang.pojo.Teacher">
+    <id property="tid" column="TId"/>
+    <result property="email" column="t1"/>
+    <result property="iphone" column="t2"/>
+    <result property="identification" column="identification"/>
+    <result property="realname" column="t3"/>
+    <result property="username" column="t4"/>
+    <result property="status" column="t5"/>
+    <result property="ifDelete" column="ifDelete"/>
+    <result property="adoptByAId" column="adoptByAId" />
+    <association property="adoptAdministrator" column="adoptByAId" javaType="com.gang.pojo.Administrator">
+      <result property="username" column="a1"/>
+      <result property="email" column="a2"/>
+      <result property="iphone" column="a3"/>
+      <result property="realname" column="a4"/>
+      <result property="status" column="a5"/>
+    </association>
+  </resultMap>
+
+  <select id="selectAdoptByStatusAndIfDelete" resultMap="adoptAllTeacher" >
+    select
+    TId, t.email t1, t.iphone t2, identification, t.realName t3, t.username t4,t.status t5,ifDelete,adoptByAId,a.username a1,a.email a2,a.iphone a3,a.realname a4,a.status a5
+    from teacher t , administrator a
+    where t.adoptByAId=a.id AND t.status=#{status} AND ifDelete=#{ifDelete}
+  </select>
+
+  <resultMap id="deleteAllTeacher" type="com.gang.pojo.Teacher">
+    <id property="tid" column="TId"/>
+    <result property="email" column="t1"/>
+    <result property="iphone" column="t2"/>
+    <result property="identification" column="identification"/>
+    <result property="realname" column="t3"/>
+    <result property="username" column="t4"/>
+    <result property="status" column="t5"/>
+    <result property="ifDelete" column="ifDelete"/>
+    <result property="deleteByAId" column="deleteByAId" />
+    <association property="deleteAdministrator" column="deleteByAId" javaType="com.gang.pojo.Administrator">
+      <result property="username" column="a1"/>
+      <result property="email" column="a2"/>
+      <result property="iphone" column="a3"/>
+      <result property="realname" column="a4"/>
+      <result property="status" column="a5"/>
+    </association>
+  </resultMap>
+
+  <select id="selectDeleteByStatusAndIfDelete" resultMap="deleteAllTeacher" >
+    select
+    TId, t.email t1, t.iphone t2, identification, t.realName t3, t.username t4,t.status t5,ifDelete,deleteByAId,a.username a1,a.email a2,a.iphone a3,a.realname a4,a.status a5
+    from teacher t , administrator a
+    where t.deleteByAId=a.id AND t.status=#{status} AND ifDelete=#{ifDelete}
+  </select>
+
+  <resultMap id="pendingAllTeacher" type="com.gang.pojo.Teacher">
+    <id property="tid" column="TId"/>
+    <result property="email" column="t1"/>
+    <result property="iphone" column="t2"/>
+    <result property="identification" column="identification"/>
+    <result property="realname" column="t3"/>
+    <result property="username" column="t4"/>
+    <result property="status" column="t5"/>
+    <result property="ifDelete" column="ifDelete"/>
+  </resultMap>
+
+  <select id="selectPendingByStatusAndIfDelete" resultMap="pendingAllTeacher" >
+    select
+    TId, t.email t1, t.iphone t2, identification, t.realName t3, t.username t4,t.status t5,ifDelete
+    from teacher t
+    where t.status=#{status} AND ifDelete=#{ifDelete}
+  </select>
+
+  <update id="updateByEamil" parameterType="com.gang.pojo.Teacher" >
+    update teacher
+    <set >
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="iphone != null" >
+        iphone = #{iphone,jdbcType=VARCHAR},
+      </if>
+      <if test="identification != null" >
+        identification = #{identification,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        realName = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status=#{status,jdbcType=INTEGER},
+      </if>
+      <if test="ifDelete != null" >
+        ifDelete=#{ifDelete,jdbcType=INTEGER},
+      </if>
+      <if test="adoptByAId != null" >
+        adoptByAId=#{adoptByAId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteByAId != null" >
+        deleteByAId=#{deleteByAId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where  email = #{email,jdbcType=INTEGER}
+  </update>
+
+</mapper>

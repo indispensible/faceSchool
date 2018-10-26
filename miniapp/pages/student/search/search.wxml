@@ -1,0 +1,50 @@
+<view class="kind-list-text">课程序号或者代码</view>
+<view class="section">
+  <input name="class" placeholder="请输入课程序号或者名称" bindinput ="classInput" style="margin: 3%;font-size: 16px;"/>
+</view>
+<view>
+  <button bindtap='formSubmit'>查询课程</button>
+</view>
+<block wx:if="{{isData == 1}}">
+  <view class="index" style="margin-top: 15rpx;">
+      <view class="index-bd">
+        <view class="kind-list">
+          <!-- 跳转回tabbar  -->
+          <button bindtap='backToTabBar' style="background-color: #fff;">跳转回首页</button>
+          <block wx:for-items="{{classes}}" wx:for-item="class" wx:key="{{class.cid}}">
+
+            <block wx:if="{{class.createtime != null}}">
+              <view class="kind-list-item">
+                <view id="{{class.cid}}" class="kind-list-item-hd">
+                  <block>
+                    <view class="kind-list-text" style="width: 100%;text-align: center;">{{class.cname}}</view>
+                  </block>
+                </view>
+                <view class="kind-list-item-bd kind-list-item-bd-show">
+                  <block>
+                    <view class="navigator">课程序号：{{class.cid}}</view>
+                  </block>
+                  <block>
+                    <view class="navigator">老师姓名：{{class.teacher.realname}}</view>
+                  </block>
+                  <block>
+                    <view class="navigator">老师邮箱：{{class.teacher.email}}</view>
+                  </block>
+                  <block>
+                    <view class="navigator">已点名次数：{{class.countsign}}</view>
+                  </block>
+                  <block>
+                    <view class="navigator">
+                    <text data-id="{{class.cid}}" style="font-size: 35.666rpx;text-align: center;width: 100%;" decode="{{true}}" bindtap='attendClassByStu'>--&nbsp;加入课程&nbsp;--</text>
+                    </view>
+                  </block> 
+              </view>
+              </view>
+            </block>
+            <block wx:else>
+            </block>
+          </block>
+        </view>
+      </view>
+    </view>
+</block>

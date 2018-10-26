@@ -1,0 +1,47 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/index/index",
+    "pages/classes/classes",
+    "pages/change/change",
+    "pages/student/classesDetail/classesDetail",
+    "pages/student/search/search",
+    "pages/teacher/classesDetail/classesDetail",
+    "pages/teacher/create/create",
+    "pages/teacher/register/register"
+  ],
+  "tabBar": {
+    "color": "#666",
+    "selectedColor": "#268dcd",
+    "borderStyle": "white",
+    "backgroundColor": "#fafafa",
+    "list": [
+      {
+        "pagePath": "pages/classes/classes",
+        "iconPath": "image/tabbar/classes-unselected.png",
+        "selectedIconPath": "image/tabbar/classes-selected.png",
+        "text": "课程"
+      },
+      {
+        "pagePath": "pages/change/change",
+        "iconPath": "image/tabbar/search-unselected.png",
+        "selectedIconPath": "image/tabbar/search-selected.png",
+        "text": "查询课程"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "image/tabbar/user-unselected.png",
+        "selectedIconPath": "image/tabbar/user-selected.png",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#268dcd",
+    "navigationBarTitleText": "faceSchool",
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh": true
+  },
+  "debug": true
+}

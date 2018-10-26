@@ -1,0 +1,24 @@
+<block wx:if="{{unselected}}">
+  <button bindtap='student' disabled='{{attendButton}}'>{{statusAttend}}</button>
+  <button bindtap='teacher' disabled='{{overButton}}'>{{statusOver}}</button>
+  <view class="container">
+    <text class="user-motto" style="margin-top:105.6%;font-size: 14.666px;color: #A9A9A9;text-align: center;" decode="{{true}}">---&nbsp;&nbsp;更多功能详见网站&nbsp;&nbsp;---</text>
+  </view>
+</block>
+<block wx:else>
+  <view style="margin-top: 5%;">
+    <view class="section">
+      <input name="username" placeholder="用户名" bindinput ="usernameInput" style="margin: 3%;font-size: 15.66px;"/>
+      <input name="password" placeholder="密码" bindinput ="passwordInput"password='true'style="margin: 3%;font-size: 15.66px;"/>
+    </view>
+    
+    <view class="btn-area">
+      <button bindtap='formSubmit' style="font-size: 18.666px;">{{users}}登录</button>
+    </view>
+    <view bindtap='navigated' class='login_selected' wx:if="{{userNum==2}}">学生登录</view>
+    <view bindtap='navigated' class='login_selected' wx:if="{{userNum==1}}">老师登录</view>
+  </view>
+  <view class="container">
+    <text class="user-motto" style="margin-top:93.6%;font-size: 14.666px;color: #A9A9A9;text-align: center;" decode="{{true}}" bindtap='logout'>---&nbsp;&nbsp;更多功能详见网站&nbsp;&nbsp;---</text>
+  </view>
+</block>

@@ -1,0 +1,18 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo" style="margin-top: 16.888%;">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+    <text class="user-motto" style="margin-top: 10%;font-size: 16.8px;">欢迎来到faceSchool</text>
+    <text class="user-motto" style="margin-top: 2.2666%;font-size: 16.8px;">开启你的学习之旅!</text>
+
+    <button style="margin-top: 12%;" bindtap='testLoc'> 测试地理位置 </button>
+    <button style="margin-top: 4%;" bindtap='previewImage'> 打赏我们 </button>
+
+    <text class="user-motto" style="margin-top: 6%;font-size: 15.666px;color: #A9A9A9;" decode="{{true}}" bindtap='logout'>--&nbsp;&nbsp;退出登录&nbsp;&nbsp;--</text>
+    <text class="user-motto" style="margin-top: 5%;font-size: 14.666px;color: #A9A9A9;" decode="{{true}}" bindtap='logout'>---&nbsp;&nbsp;忘记密码请于电脑端找回&nbsp;&nbsp;---</text>
+  </view>
+</view>

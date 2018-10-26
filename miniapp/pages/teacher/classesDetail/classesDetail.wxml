@@ -1,0 +1,38 @@
+<!--pages/teacher/classesDetail/classesDetail.wxml-->
+ <view class="index" style="margin-top: 16.66rpx;">
+      <view class="index-bd">
+        <view class="kind-list">
+          <block wx:for-items="{{detail}}" wx:for-item="class" wx:key="{{class.cid}}">
+              <view class="kind-list-item">
+                <view id="{{class.cid}}" class="kind-list-item-hd">
+                  <block>
+                    <view class="kind-list-text">{{class.cname}}<text decode="{{true}}" style="font-size: 30.666rpx;color: #A9A9A9;">&nbsp;&nbsp;已签到：{{class.countsign}}次</text></view>
+                  </block>
+                </view>
+                <view class="kind-list-item-bd kind-list-item-bd-show">
+                  <block>
+                    <view class="navigator">课程序号：{{class.cid}}</view>
+                  </block>
+                  <block>
+                    <view class="navigator">课程创建时间：{{class.createtime}}</view>
+                  </block>
+                  <block>
+                    <view class="navigator">
+                      上课：
+                      <button bindtap='attend' style="margin-left: 28%;" disabled='{{attendButton}}'>{{statusAttend}}</button>
+                    </view>
+                    <view class="navigator">
+                      下课：
+                      <button bindtap='over' style="margin-left: 28%;" disabled='{{overButton}}'>{{statusOver}}</button>
+                    </view>
+                  </block>
+                  <block>
+                    <view class="navigator" style="font-size: 38rpx;padding-bottom: 15rpx;">课程描述 </view>
+                    <text style="display: flex;padding: 0rpx 20rpx 0rpx 20rpx;">{{class.cdescription}}</text> 
+                  </block>
+              </view>
+              </view>
+          </block>
+        </view>
+      </view>
+    </view>

@@ -1,0 +1,5 @@
+<view style="width: 100%;height: 100%;" bindtap='changePage'>
+  <view class="page-loading">
+      <text class="loading-text" style="font-size: 48rpx;" style="font-size: 26px;text-align: center;">点击我进行页面跳转哦！</text>
+  </view>
+</view>

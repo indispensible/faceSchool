@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gang.dao.SCRealationMapper" >
+  <resultMap id="BaseResultMap" type="com.gang.pojo.SCRealation" >
+    <constructor >
+      <arg column="SId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="CId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="SignAttendTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SignOverTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SignLocation" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="OverSignLocation" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SignCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="SignState" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="IfSign" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="findBaseAll">
+    SId,CId,SignAttendTime,SignOverTime,SignLocation,OverSignLocation,SignCount,SignState,IfSign
+  </sql>
+  <insert id="insert" parameterType="com.gang.pojo.SCRealation" >
+    insert into screalation (SId, CId, SignAttendTime, 
+      SignOverTime, SignLocation,OverSignLocation, SignCount,
+      SignState,ifSign)
+    values (#{sid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, now(),
+      now(), #{signlocation,jdbcType=VARCHAR}, #{signcount,jdbcType=INTEGER},
+      #{signstate,jdbcType=INTEGER},#{ifSign,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gang.pojo.SCRealation" >
+    insert into screalation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        SId,
+      </if>
+      <if test="cid != null" >
+        CId,
+      </if>
+      <if test="signattendtime != null" >
+        SignAttendTime,
+      </if>
+      <if test="signovertime != null" >
+        SignOverTime,
+      </if>
+      <if test="signlocation != null" >
+        SignLocation,
+      </if>
+      <if test="oversignlocation != null" >
+        OverSignLocation,
+      </if>
+      <if test="signcount != null" >
+        SignCount,
+      </if>
+      <if test="signstate != null" >
+        SignState,
+      </if>
+      <if test="signstate != null" >
+        IfSign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="signattendtime != null" >
+        now(),
+      </if>
+      <if test="signovertime != null" >
+        now(),
+      </if>
+      <if test="signlocation != null" >
+        #{signlocation,jdbcType=VARCHAR},
+      </if>
+      <if test="oversignlocation != null" >
+        #{oversignlocation,jdbcType=VARCHAR},
+      </if>
+      <if test="signcount != null" >
+        #{signcount,jdbcType=INTEGER},
+      </if>
+      <if test="signstate != null" >
+        #{signstate,jdbcType=INTEGER},
+      </if>
+      <if test="signstate != null" >
+        #{ifSign,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <resultMap id="findAllClasses" type="com.gang.pojo.Class">
+      <result property="cname" column="a"/>
+      <result property="cdescription" column="a1"/>
+      <result property="createtime" column="a2"/>
+      <result property="attendtime" column="a3"/>
+      <result property="overtime" column="a4"/>
+      <result property="countsign" column="a5"/>
+      <association property="teacher" column="t.TId" javaType="com.gang.pojo.Teacher">
+         <result property="realname" column="a6"/>
+      </association>
+  </resultMap>
+
+  <select id="selectByStuId" resultMap="findAllClasses" parameterType="java.lang.Integer">
+    select
+    c.CName a,c.CDescription a1,c.createTime a2,c.AttendTime a3,c.OverTime a4,c.countSign a5,t.realname a6
+    from screalation s,class c,teacher t
+    where c.CId=s.CId and t.TId=c.TId and s.SId=#{id}
+    group by s.CId
+  </select>
+
+  <resultMap id="findAllStudents" type="com.gang.pojo.SCRealation">
+    <result property="signattendtime" column="SignAttendTime"/>
+    <result property="signovertime" column="SignOverTime"/>
+    <result property="signcount" column="SignCount"/>
+    <result property="signstate" column="SignState"/>
+    <result property="signlocation" column="d"/>
+    <result property="oversignlocation" column="OverSignLocation"/>
+    <result property="ifSign" column="ifSign"/>
+    <association property="classes" column="a" javaType="com.gang.pojo.Class">
+      <result property="cname" column="CName"/>
+      <result property="createtime" column="createTime"/>
+      <result property="attendtime" column="AttendTime"/>
+      <result property="overtime" column="OverTime"/>
+      <result property="countsign" column="countSign"/>
+    </association>
+    <association property="student" column="b" javaType="com.gang.pojo.Student">
+      <result property="realname" column="c"/>
+      <result property="mhUsername" column="mh_username"/>
+    </association>
+  </resultMap>
+
+   <select id="selectByClaId" resultMap="findAllStudents">
+      SELECT sc.CId a,sc.SId b,s.realname c,mh_username,SignAttendTime,SignOverTime,SignCount,SignState,sc.SignLocation d,OverSignLocation,ifSign,CName,createTime,AttendTime,OverTime,countSign
+      from screalation sc,student s,class c,teacher t
+      where c.CId=sc.CId and sc.SId=s.id and c.TId=t.TId and sc.CId=#{CId} and t.TId=#{TId}
+   </select>
+
+  <resultMap id="BaseAll" type="com.gang.pojo.SCRealation">
+    <result property="cid" column="CId"/>
+    <result property="sid" column="SId"/>
+    <result property="signattendtime" column="SignAttendTime"/>
+    <result property="signovertime" column="SignOverTime"/>
+    <result property="signlocation" column="SignLocation"/>
+    <result property="oversignlocation" column="OverSignLocation"/>
+    <result property="signcount" column="SignCount"/>
+    <result property="signstate" column="SignState"/>
+    <result property="ifSign" column="IfSign"/>
+  </resultMap>
+
+  <select id="selectBaseAll" resultMap="BaseAll">
+    select
+    <include refid="findBaseAll"/>
+    from screalation
+    where CId=#{CId} and SId=#{SId} and SignCount=#{SignCount}
+  </select>
+
+  <update id="updateByCSSignCount" parameterType="com.gang.pojo.SCRealation" >
+    update screalation
+    <set >
+      <if test="cid != null" >
+        CId = #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="sid != null" >
+        SId = #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="signattendtime != null" >
+        SignAttendTime=now(),
+      </if>
+      <if test="signovertime != null" >
+        SignOverTime=now(),
+      </if>
+      <if test="signlocation != null" >
+        SignLocation = #{signlocation,jdbcType=VARCHAR},
+      </if>
+      <if test="oversignlocation != null" >
+        OverSignLocation = #{oversignlocation,jdbcType=VARCHAR},
+      </if>
+      <if test="signcount != null" >
+        SignCount = #{signcount,jdbcType=VARCHAR},
+      </if>
+      <if test="signstate != null" >
+        SignState = #{signstate,jdbcType=VARCHAR},
+      </if>
+      <if test="ifSign != null" >
+        IfSign = #{ifSign,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CId = #{cid,jdbcType=INTEGER} and SId = #{sid,jdbcType=INTEGER} and SignCount = #{signcount,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.gang.pojo.SCRealation" >
+    update screalation
+    set CId = #{cid,jdbcType=VARCHAR},
+        SId = #{sid,jdbcType=VARCHAR},
+        SignAttendTime=now(),
+        SignOverTime=now(),
+        SignLocation = #{signlocation,jdbcType=VARCHAR},
+        OverSignLocation = #{oversignlocation,jdbcType=VARCHAR},
+        SignCount = #{signcount,jdbcType=VARCHAR},
+        SignState = #{signstate,jdbcType=VARCHAR},
+        IfSign = #{ifSign,jdbcType=VARCHAR}
+    where CId = #{cid,jdbcType=INTEGER} and SId = #{sid,jdbcType=INTEGER} and SignCount = #{signcount,jdbcType=INTEGER}
+  </update>
+
+</mapper>

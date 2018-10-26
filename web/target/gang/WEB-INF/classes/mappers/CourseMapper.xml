@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gang.dao.CourseMapper" >
+  <resultMap id="BaseResultMap" type="com.gang.pojo.Course" >
+    <constructor >
+      <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="courseID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="courseName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="teacher" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="courseTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <insert id="insert" parameterType="com.gang.pojo.Course" >
+    insert into course (username, courseID, courseName, 
+      teacher, courseTime)
+    values (#{username,jdbcType=VARCHAR}, #{courseid,jdbcType=INTEGER}, #{coursename,jdbcType=VARCHAR}, 
+      #{teacher,jdbcType=VARCHAR}, #{coursetime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gang.pojo.Course" >
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="courseid != null" >
+        courseID,
+      </if>
+      <if test="coursename != null" >
+        courseName,
+      </if>
+      <if test="teacher != null" >
+        teacher,
+      </if>
+      <if test="coursetime != null" >
+        courseTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="courseid != null" >
+        #{courseid,jdbcType=INTEGER},
+      </if>
+      <if test="coursename != null" >
+        #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="teacher != null" >
+        #{teacher,jdbcType=VARCHAR},
+      </if>
+      <if test="coursetime != null" >
+        #{coursetime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="findAllCourses" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select username,courseID,courseName,teacher,courseTime
+    FROM course
+    WHERE username=#{username}
+  </select>
+</mapper>

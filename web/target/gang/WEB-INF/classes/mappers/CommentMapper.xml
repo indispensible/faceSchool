@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gang.dao.CommentMapper" >
+  <!--<resultMap id="BaseResultMap" type="com.gang.pojo.Comment" >-->
+    <!--<constructor >-->
+      <!--<idArg column="CommentId" jdbcType="INTEGER" javaType="java.lang.Integer" />-->
+      <!--<arg column="CId" jdbcType="INTEGER" javaType="java.lang.Integer" />-->
+      <!--<arg column="Name" jdbcType="VARCHAR" javaType="java.lang.String" />-->
+      <!--<arg column="email" jdbcType="VARCHAR" javaType="java.lang.String" />-->
+      <!--<arg column="ifDelete" jdbcType="INTEGER" javaType="java.lang.Integer" />-->
+      <!--<arg column="time" jdbcType="TIMESTAMP" javaType="java.util.Date" />-->
+      <!--<arg column="applaud" jdbcType="INTEGER" javaType="java.lang.Integer" />-->
+    <!--</constructor>-->
+  <!--</resultMap>-->
+  <resultMap id="BaseResultMap" type="com.gang.pojo.Comment" >
+    <constructor >
+      <idArg column="CommentId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="CId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="Name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="email" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ifDelete" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="applaud" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="Comment" jdbcType="LONGVARCHAR" javaType="java.lang.String" />
+      <arg column="positive" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sentiment" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="backup" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CommentId, CId, Name, email, ifDelete, time, applaud, Comment, positive, sentiment, backup
+  </sql>
+  <!--<sql id="Blob_Column_List" >-->
+    <!--Comment-->
+  <!--</sql>-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where CommentId = #{commentid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from comment
+    where CommentId = #{commentid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gang.pojo.Comment" >
+    insert into comment (CommentId, CId, Name, 
+      email, ifDelete, time, 
+      applaud, Comment, positive, sentiment, backup)
+    values (#{commentid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{ifdelete,jdbcType=INTEGER}, now(),
+      #{applaud,jdbcType=INTEGER}, #{comment,jdbcType=LONGVARCHAR}, #{positive,jdbcType=VARCHAR}, #{sentiment,jdbcType=VARCHAR}, #{backup,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gang.pojo.Comment" >
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentid != null" >
+        CommentId,
+      </if>
+      <if test="cid != null" >
+        CId,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="ifdelete != null" >
+        ifDelete,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="applaud != null" >
+        applaud,
+      </if>
+      <if test="comment != null" >
+        Comment,
+      </if>
+      <if test="comment != null" >
+        positive,
+      </if>
+      <if test="comment != null" >
+        sentiment,
+      </if>
+      <if test="comment != null" >
+        backup,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentid != null" >
+        #{commentid,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="ifdelete != null" >
+        #{ifdelete,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        now(),
+      </if>
+      <if test="applaud != null" >
+        #{applaud,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="positive != null" >
+        #{positive,jdbcType=VARCHAR},
+      </if>
+      <if test="sentiment != null" >
+        #{sentiment,jdbcType=VARCHAR},
+      </if>
+      <if test="backup != null" >
+        "0",
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gang.pojo.Comment" >
+    update comment
+    <set >
+      <if test="cid != null" >
+        CId = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="ifdelete != null" >
+        ifDelete = #{ifdelete,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        time = now(),
+      </if>
+      <if test="applaud != null" >
+        applaud = #{applaud,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null" >
+        Comment = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="positive != null" >
+        positive = #{positive,jdbcType=VARCHAR},
+      </if>
+      <if test="sentiment != null" >
+        sentiment = #{sentiment,jdbcType=VARCHAR},
+      </if>
+      <if test="backup != null" >
+        backup = #{backup,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CommentId = #{commentid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.gang.pojo.Comment" >
+    update comment
+    set CId = #{cid,jdbcType=INTEGER},
+      Name = #{name,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      ifDelete = #{ifdelete,jdbcType=INTEGER},
+      time = now(),
+      applaud = #{applaud,jdbcType=INTEGER},
+      Comment = #{comment,jdbcType=LONGVARCHAR},
+      positive = #{positive,jdbcType=VARCHAR},
+      sentiment = #{sentiment,jdbcType=VARCHAR},
+      backup = #{backup,jdbcType=VARCHAR}
+    where CommentId = #{commentid,jdbcType=INTEGER}
+  </update>
+  <!--<update id="updateByPrimaryKey" parameterType="com.gang.pojo.Comment" >-->
+    <!--update comment-->
+    <!--set CId = #{cid,jdbcType=INTEGER},-->
+      <!--Name = #{name,jdbcType=VARCHAR},-->
+      <!--email = #{email,jdbcType=VARCHAR},-->
+      <!--ifDelete = #{ifdelete,jdbcType=INTEGER},-->
+      <!--time = #{time,jdbcType=TIMESTAMP},-->
+      <!--applaud = #{applaud,jdbcType=INTEGER}-->
+    <!--where CommentId = #{commentid,jdbcType=INTEGER}-->
+  <!--</update>-->
+
+  <select id="selectByCId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from comment
+    where CId = #{cid,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByapplaud" resultMap="BaseResultMap"  parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from comment
+    where applaud  = #{applaud,jdbcType=INTEGER}
+  </select>
+</mapper>

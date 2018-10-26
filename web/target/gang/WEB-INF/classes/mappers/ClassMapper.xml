@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gang.dao.ClassMapper" >
+  <resultMap id="BaseResultMap" type="com.gang.pojo.Class" >
+    <id property="cid" column="CId"/>
+    <result property="tid" column="TId"/>
+    <result property="cname" column="CName"/>
+    <result property="cdescription" column="CDescription"/>
+    <result property="createtime" column="createTime"/>
+    <result property="attendtime" column="AttendTime"/>
+    <result property="overtime" column="OverTime"/>
+    <result property="countsign" column="countSign"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    CId, TId,CName,CDescription,createTime,AttendTime,OverTime,countSign
+  </sql>
+
+  <insert id="insert" parameterType="com.gang.pojo.Class" >
+    insert into class (CId, TId, CName, 
+      CDescription, createTime, AttendTime, 
+      OverTime)
+    values (#{cid,jdbcType=INTEGER}, #{tid,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, 
+      #{cdescription,jdbcType=VARCHAR}, now(), now(),
+      now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.gang.pojo.Class" >
+    insert into class
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        CId,
+      </if>
+      <if test="tid != null" >
+        TId,
+      </if>
+      <if test="cname != null" >
+        CName,
+      </if>
+      <if test="cdescription != null" >
+        CDescription,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="attendtime != null" >
+        AttendTime,
+      </if>
+      <if test="overtime != null" >
+        OverTime,
+      </if>
+      <if test="countsign != null" >
+        countSign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="tid != null" >
+        #{tid,jdbcType=INTEGER},
+      </if>
+      <if test="cname != null" >
+        #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="cdescription != null" >
+        #{cdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        now(),
+      </if>
+      <if test="attendtime != null" >
+        "2018-02-26 21:49:21",
+      </if>
+      <if test="overtime != null" >
+        "2018-02-27 21:49:21",
+      </if>
+      <if test="countsign != null" >
+        #{countsign,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+
+  <!--<resultMap id="classGang" type="com.gang.pojo.Class">-->
+    <!--<collection property="classList" ofType="com.gang.pojo.Class" column="CName" select="selectClassByCName"></collection>-->
+  <!--</resultMap>-->
+
+  <select id="selectClassByCName" resultMap="findClass" parameterType="java.lang.String">
+    select
+    CId, c.TId a,CName,CDescription,createTime,email,realName
+    from class c,teacher t
+    where c.TId=t.TId AND CName like CONCAT('%',#{CName},'%')
+  </select>
+
+  <resultMap id="findClass" type="com.gang.pojo.Class">
+    <result property="cid" column="CId"/>
+    <result property="cname" column="CName"/>
+    <result property="cdescription" column="CDescription"/>
+    <result property="createtime" column="createTime"/>
+    <result property="attendtime" column="AttendTime"/>
+    <result property="overtime" column="OverTime"/>
+    <result property="countsign" column="countSign"/>
+    <association property="teacher" column="a" javaType="com.gang.pojo.Teacher">
+      <result property="email" column="email"/>
+      <result property="realname" column="realName"/>
+    </association>
+  </resultMap>
+
+  <select id="selectClassByCId" resultMap="findClass" parameterType="java.lang.Integer">
+    select
+     CId, c.TId a,CName,CDescription,createTime,AttendTime,OverTime,email,realName,countSign
+    from class c,teacher t
+    where c.TId=t.TId AND CId=#{CId}
+  </select>
+
+
+  <resultMap id="findClasses" type="com.gang.pojo.Class">
+    <result property="cid" column="CId"/>
+    <result property="cname" column="CName"/>
+    <result property="cdescription" column="CDescription"/>
+    <result property="createtime" column="createTime"/>
+    <result property="attendtime" column="AttendTime"/>
+    <result property="overtime" column="OverTime"/>
+    <result property="countsign" column="countSIgn"/>
+    <association property="teacher" column="a" javaType="com.gang.pojo.Teacher">
+      <result property="email" column="email"/>
+      <result property="realname" column="realName"/>
+    </association>
+  </resultMap>
+
+  <select id="selectClassByTId" resultMap="findClasses" parameterType="java.lang.Integer">
+    select
+    CId, c.TId a,CName,CDescription,createTime,email,countSign,realName
+    from class c,teacher t
+    where c.TId=t.TId AND t.TId=#{TId}
+  </select>
+
+  <delete id="deleteByCId" >
+    delete from class
+    where CId = #{CId} and TId=#{TId}
+  </delete>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.gang.pojo.Class" >
+    update class
+    <set >
+      <if test="cid != null" >
+        CId = #{cid},
+      </if>
+      <if test="tid != null" >
+        TId = #{tid},
+      </if>
+      <if test="cname != null" >
+        CName = #{cname},
+      </if>
+      <if test="cdescription != null" >
+        CDescription = #{cdescription,jdbcType=VARCHAR},,
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime},
+      </if>
+      <if test="attendtime != null" >
+        AttendTime = now(),
+      </if>
+      <if test="overtime != null" >
+        OverTime = now(),
+      </if>
+      <if test="countsign != null" >
+        countSign = #{countsign},
+      </if>
+      <if test="signlocation != null" >
+        SignLocation = #{signlocation},
+      </if>
+    </set>
+    where CId = #{cid,jdbcType=INTEGER}
+  </update>
+</mapper>
